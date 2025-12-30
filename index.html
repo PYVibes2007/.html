@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Accounting Equation</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green-dark: #10403B;
+      --green-main: #127369;
+      --green-soft: #8AA6A3;
+      --page-gray: #BFBFBF;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      font-family: "Inter", Arial, sans-serif;
+      background-color: var(--page-gray);
+      background-image: repeating-linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.16) 0px,
+        rgba(255, 255, 255, 0.16) 1px,
+        transparent 1px,
+        transparent 8px
+      );
+      margin: 0;
+      padding: 20px 20px 40px 20px;
+    }
+
+    .page {
+      max-width: 1300px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 25px 24px 25px 24px;
+      border-radius: 14px;
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+
+    /* Top bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-main) 100%);
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(18, 115, 105, 0.3);
+    }
+
+    .top-bar-left {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    .top-bar-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #8AA6A3);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+
+    h1 {
+      text-align: center;
+      margin: 5px 0 5px 0;
+      font-size: 35px;
+      letter-spacing: 0.5px;
+      color: var(--green-dark);
+    }
+
+    .subtitle {
+      text-align: center;
+      margin: 0 0 20px 0;
+      font-style: italic;
+      color: #127369;
+      font-size: 18px;
+    }
+
+    /* Instruction panel */
+    .instruction-panel {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      background-color: #F3F8F7;
+      border: 1px solid #D4E3E0;
+    }
+
+    .instruction-icon {
+      flex: 0 0 auto;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 2px solid var(--green-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--green-main);
+      font-size: 14px;
+      background-color: #ffffff;
+    }
+
+    .instruction-text {
+      font-size: 14px;
+      line-height: 1.4;
+      color: #333333;
+    }
+
+    .instruction-highlight {
+      font-weight: 600;
+      color: var(--green-dark);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row-reverse; /* account bank on right */
+      gap: 18px;
+      align-items: flex-start;
+      margin-top: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .bank-column {
+      flex: 0 0 20%;
+      max-width: 20%;
+      min-width: 190px;
+      box-sizing: border-box;
+    }
+
+    .equation-column {
+      flex: 1 1 0;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .column-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green-dark);
+    }
+
+    .column-title::before {
+      content: "◆";
+      font-size: 13px;
+      color: var(--green-main);
+    }
+
+    /* Account bank as simple list */
+    .bank {
+      padding: 4px 0;
+      min-height: 260px;
+      box-sizing: border-box;
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .equation-dropzones {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .element-group {
+      flex: 1 1 0;
+      min-width: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      background-color: #BFBFBF;
+      border-radius: 16px;
+      padding: 6px 6px 10px 6px;
+      border: 7px solid transparent;
+    }
+
+    .asset-group {
+      border-color: #127369;
+    }
+
+    .liability-group {
+      border-color: #10403B;
+    }
+
+    .equity-group {
+      border-color: #10403B;
+    }
+
+    .element-header {
+      font-weight: 800;
+      text-align: center;
+      padding: 4px 6px;
+      border-radius: 10px;
+      color: #222222;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background-color: transparent;
+      margin-bottom: 4px;
+      white-space: nowrap;
+    }
+
+    .element-header::before {
+      font-size: 11px;
+    }
+
+    .element-zone {
+      border-radius: 10px;
+      padding: 8px;
+      min-height: 370px; /* a bit longer vertically */
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background-color: rgba(255, 255, 255, 0.65);
+      border: none;
+      width: 100%;
+    }
+
+    .element-hint {
+      margin-top: 4px;
+      font-size: 12px;
+      text-align: center;
+      color: #333333;
+      opacity: 0.9;
+    }
+
+    .asset-header {
+      color: #127369;
+    }
+
+    .liability-header {
+      color: #10403B;
+    }
+
+    .equity-header {
+      color: #10403B;
+    }
+
+    .element-zone .card {
+      background-color: var(--card-bg);
+      color: #000000;
+    }
+
+    /* Operator between boxes */
+    .equation-operator {
+      flex: 0 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 800;
+      color: #10403B;
+    }
+
+    .equation-operator span {
+      display: inline-block;
+      padding: 4px 0;
+    }
+
+    .card {
+      border-radius: 8px;
+      padding: 8px 10px;
+      background-color: var(--card-bg);
+      cursor: move;
+      user-select: none;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .card::before {
+      content: "●";
+      font-size: 10px;
+      color: var(--green-main);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.22);
+    }
+
+    .dropzone.highlight {
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+    }
+
+    .dropzone.correct-pulse {
+      animation: correctFlash 0.45s ease-out;
+    }
+
+    @keyframes correctFlash {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.0);
+      }
+      50% {
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.85);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.0);
+      }
+    }
+
+    .feedback {
+      margin-top: 30px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #dde1e0;
+      background-color: #F6F7F7;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feedback-label {
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .feedback-text {
+      color: #333333;
+    }
+
+    /* Controls */
+    .controls-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      background: linear-gradient(90deg, #127369, #10403B);
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.24);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+    }
+
+    /* Confetti around bottom popup */
+    #confetti-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.25s;
+      z-index: 9999;
+    }
+
+    #confetti-container.show {
+      opacity: 1;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 0%;
+      animation: firework-burst ease-out forwards;
+    }
+
+    @keyframes firework-burst {
+      0% {
+        transform: translate(0, 0) scale(0.3);
+        opacity: 1;
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--dx), var(--dy)) scale(1);
+        opacity: 0;
+      }
+    }
+
+    #confetti-message {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--green-dark);
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      padding: 16px 32px;
+      border-radius: 16px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(248, 252, 251, 0.98) 100%
+      );
+      letter-spacing: 2px;
+      border: 3px solid var(--green-main);
+      box-shadow: 0 8px 24px rgba(18, 115, 105, 0.4);
+      z-index: 10000;
+    }
+
+    /* Achievement popup (unused, kept if needed later) */
+    .achievement-popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--green-main) 0%, var(--green-dark) 100%);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(18, 115, 105, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      z-index: 10001;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .achievement-popup.show {
+      transform: translateX(0);
+    }
+
+    .achievement-popup .icon {
+      font-size: 24px;
+    }
+
+    /* Responsive layout */
+    @media (max-width: 1024px) {
+      .container {
+        flex-direction: column;
+      }
+      .bank-column,
+      .equation-column {
+        flex: 0 0 100%;
+        max-width: 100%;
+        min-width: 0;
+      }
+      .equation-dropzones {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .equation-operator {
+        width: 100%;
+      }
+      .element-zone {
+        min-height: 220px;
+      }
+      .bank {
+        min-height: 220px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 16px 14px 22px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top-bar">
+      <div class="top-bar-left">Classifying Business Accounts</div>
+      <div class="top-bar-right">
+        <span>Interactive Activity</span>
+        <div class="top-bar-icon"></div>
+      </div>
+    </div>
+
+    <h1>The Accounting Equation</h1>
+    <p class="subtitle"><em>Drag and Drop</em></p>
+
+    <div class="instruction-panel">
+      <div class="instruction-icon">i</div>
+      <div class="instruction-text">
+        Practice categorizing accounts by dragging and dropping each account tile into the correct element box. Different versions of similar account titles may appear. Treat them as variations of the same concept and place each in its proper element.
+        <span class="instruction-highlight">Click "Reset" for a new random set of 10 accounts for more practice.</span>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Account bank (right side) -->
+      <div class="bank-column">
+        <div class="column-title">Account Bank</div>
+        <div id="bank" class="bank dropzone">
+          <!-- Fallback tiles if JavaScript fails -->
+          <div class="card" draggable="true" data-type="asset">Cash</div>
+          <div class="card" draggable="true" data-type="liability">Accounts Payable</div>
+          <div class="card" draggable="true" data-type="equity">Capital, Owner</div>
+        </div>
+      </div>
+
+      <!-- Equation and dropzones (left side) -->
+      <div class="equation-column">
+        <div class="equation-dropzones">
+          <div class="element-group asset-group">
+            <div class="element-header asset-header">Assets</div>
+            <div
+              id="assets-zone"
+              class="dropzone element-zone asset-zone"
+              data-accept="asset"
+            ></div>
+            <div class="element-hint">Resources Owned</div>
+          </div>
+
+          <div class="equation-operator">
+            <span>=</span>
+          </div>
+
+          <div class="element-group liability-group">
+            <div class="element-header liability-header">Liabilities</div>
+            <div
+              id="liabilities-zone"
+              class="dropzone element-zone liability-zone"
+              data-accept="liability"
+            ></div>
+            <div class="element-hint">Amounts Owed</div>
+          </div>
+
+          <div class="equation-operator">
+            <span>+</span>
+          </div>
+
+          <div class="element-group equity-group">
+            <div class="element-header equity-header">Owner&#8217;s Equity</div>
+            <div
+              id="equity-zone"
+              class="dropzone element-zone equity-zone"
+              data-accept="equity"
+            ></div>
+            <div class="element-hint">Owner Claims and Changes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="feedback" class="feedback">
+      <span class="feedback-label">Status</span>
+      <span class="feedback-text">
+        Drag each account tile to Assets, Liabilities, or Owner&#8217;s Equity, then select Check Answers.
+      </span>
+    </div>
+
+    <div class="controls-row">
+      <button id="reset-btn">Reset</button>
+      <button id="check-btn">Check Answers</button>
+    </div>
+  </div>
+
+  <div id="confetti-container"></div>
+
+  <script>
+    window.addEventListener('load', function () {
+      const allAccounts = [
+        { label: 'Cash', type: 'asset' },
+        { label: 'Accounts Receivable', type: 'asset' },
+        { label: 'Supplies', type: 'asset' },
+        { label: 'Prepaid Supplies', type: 'asset' },
+        { label: 'Insurance', type: 'asset' },
+        { label: 'Prepaid Insurance', type: 'asset' },
+        { label: 'Land', type: 'asset' },
+        { label: 'Equipment', type: 'asset' },
+        { label: 'Building', type: 'asset' },
+        { label: 'Office Furniture', type: 'asset' },
+        { label: 'Computers', type: 'asset' },
+
+        { label: 'Accounts Payable', type: 'liability' },
+        { label: 'Notes Payable', type: 'liability' },
+        { label: 'Loans Payable', type: 'liability' },
+        { label: 'Mortgage Payable', type: 'liability' },
+        { label: 'Interest Payable', type: 'liability' },
+        { label: 'Taxes Payable', type: 'liability' },
+        { label: 'Unearned Fees Income', type: 'liability' },
+        { label: 'Unearned Revenues', type: 'liability' },
+        { label: 'Unearned Subscription Revenues', type: 'liability' },
+        { label: 'Salaries Payable', type: 'liability' },
+
+        { label: 'Izzy Summerbell, Capital', type: 'equity' },
+        { label: 'Izzy Summerbell, Drawing', type: 'equity' },
+        { label: 'Utilities Expense', type: 'equity' },
+        { label: 'Miscellaneous Expense', type: 'equity' },
+        { label: 'Interest Expense', type: 'equity' },
+        { label: 'Fees Earned', type: 'equity' },
+        { label: 'Revenues', type: 'equity' },
+        { label: 'Fees Income', type: 'equity' },
+        { label: 'Wages Expense', type: 'equity' },
+        { label: 'Salaries Expense', type: 'equity' },
+        { label: 'Rent Expense', type: 'equity' },
+        { label: 'Supplies Expense', type: 'equity' },
+        { label: 'Insurance Expense', type: 'equity' }
+      ];
+
+      const bank = document.getElementById('bank');
+      const assetsZone = document.getElementById('assets-zone');
+      const liabilitiesZone = document.getElementById('liabilities-zone');
+      const equityZone = document.getElementById('equity-zone');
+      const feedback = document.getElementById('feedback');
+      const resetBtn = document.getElementById('reset-btn');
+      const checkBtn = document.getElementById('check-btn');
+      const confettiContainer = document.getElementById('confetti-container');
+
+      if (!bank || !assetsZone || !liabilitiesZone || !equityZone || !resetBtn || !checkBtn) {
+        return;
+      }
+
+      let draggedCard = null;
+
+      function makeCardDraggable(card) {
+        card.addEventListener('dragstart', function (e) {
+          draggedCard = card;
+          e.dataTransfer.setData('text/plain', '');
+        });
+
+        card.addEventListener('dragend', function () {
+          draggedCard = null;
+        });
+      }
+
+      function setupDropzone(zone) {
+        zone.addEventListener('dragover', function (e) {
+          e.preventDefault();
+          zone.classList.add('highlight');
+        });
+
+        zone.addEventListener('dragleave', function () {
+          zone.classList.remove('highlight');
+        });
+
+        zone.addEventListener('drop', function () {
+          zone.classList.remove('highlight');
+          if (!draggedCard) return;
+          zone.appendChild(draggedCard);
+
+          const expectedType = draggedCard.getAttribute('data-type');
+          const zoneAccept = zone.getAttribute('data-accept');
+          if (zoneAccept && expectedType === zoneAccept) {
+            zone.classList.add('correct-pulse');
+            setTimeout(function () {
+              zone.classList.remove('correct-pulse');
+            }, 450);
+          }
+        });
+      }
+
+      function shuffleArray(arr) {
+        const copy = arr.slice();
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = copy[i];
+          copy[i] = copy[j];
+          copy[j] = temp;
+        }
+        return copy;
+      }
+
+      function populateRandomAccounts() {
+        bank.innerHTML = '';
+        assetsZone.innerHTML = '';
+        liabilitiesZone.innerHTML = '';
+        equityZone.innerHTML = '';
+
+        const shuffled = shuffleArray(allAccounts);
+        const selection = shuffled.slice(0, 10);
+
+        selection.forEach(account => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.textContent = account.label;
+          card.setAttribute('draggable', 'true');
+          card.setAttribute('data-type', account.type);
+          makeCardDraggable(card);
+          bank.appendChild(card);
+        });
+
+        const feedbackLabel = feedback.querySelector('.feedback-label');
+        const feedbackText = feedback.querySelector('.feedback-text');
+        if (feedbackLabel && feedbackText) {
+          feedbackLabel.textContent = 'Status';
+          feedbackText.textContent =
+            'Drag each account tile to Assets, Liabilities, or Owner\'s Equity, then select Check Answers.';
+        }
+      }
+
+      function triggerConfetti() {
+        confettiContainer.innerHTML = '';
+
+        const colors = ['#127369', '#10403B', '#8AA6A3', '#FFD166', '#EF476F', '#06D6A0', '#118AB2'];
+
+        const bursts = 4
+        const piecesPerBurst = 200;
+
+        for (let b = 0; b < bursts; b++) {
+          for (let i = 0; i < piecesPerBurst; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100; 
+
+            piece.style.left = startX + '%';
+            piece.style.top = startY + '%';
+
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 200 + Math.random() * 400;
+
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance;
+
+            piece.style.setProperty('--dx', dx + 'px');
+            piece.style.setProperty('--dy', dy + 'px');
+            piece.style.backgroundColor =
+              colors[Math.floor(Math.random() * colors.length)];
+
+            const duration = 1.2 + Math.random() * 0.6;
+            const delay = Math.random() * 0.3;
+            piece.style.animationDuration = duration + 's';
+            piece.style.animationDelay = delay + 's';
+
+            confettiContainer.appendChild(piece);
+          }
+        }
+
+        const message = document.createElement('div');
+        message.id = 'confetti-message';
+        message.textContent = 'Outstanding! 100% Correct.';
+        confettiContainer.appendChild(message);
+
+        confettiContainer.classList.add('show');
+
+        setTimeout(function () {
+          confettiContainer.classList.remove('show');
+          confettiContainer.innerHTML = '';
+        }, 4000);
+      }
+
+      function checkAnswers() {
+        const cards = document.querySelectorAll('.card');
+        const total = cards.length;
+
+        if (total === 0) {
+          const feedbackLabel = feedback.querySelector('.feedback-label');
+          const feedbackText = feedback.querySelector('.feedback-text');
+          if (feedbackLabel && feedbackText) {
+            feedbackLabel.textContent = 'Status';
+            feedbackText.textContent = 'No account tiles are loaded. Select Reset to start.';
+          }
+          return;
+        }
+
+        let placedCount = 0;
+        let correct = 0;
+
+        cards.forEach(card => {
+          const parentZone = card.parentElement;
+          const expectedType = card.getAttribute('data-type');
+          const zoneAccept = parentZone.getAttribute('data-accept');
+
+          if (zoneAccept) {
+            placedCount += 1;
+            if (expectedType === zoneAccept) {
+              correct += 1;
+            }
+          }
+        });
+
+        const feedbackLabel = feedback.querySelector('.feedback-label');
+        const feedbackText = feedback.querySelector('.feedback-text');
+
+        if (placedCount < total) {
+          if (feedbackLabel && feedbackText) {
+            feedbackLabel.textContent = 'Status';
+            feedbackText.textContent =
+              'Correct ' +
+              correct +
+              ' out of ' +
+              total +
+              '. Place all tiles into an element box to complete the activity.';
+          }
+          return;
+        }
+
+        const score = Math.round((correct / total) * 100);
+
+        if (feedbackLabel && feedbackText) {
+          feedbackLabel.textContent = 'Score';
+          feedbackText.textContent =
+            'Correct ' + correct + ' out of ' + total + '. Score ' + score + ' percent.';
+        }
+
+        if (correct === total) {
+          triggerConfetti();
+        }
+      }
+
+      setupDropzone(bank);
+      setupDropzone(assetsZone);
+      setupDropzone(liabilitiesZone);
+      setupDropzone(equityZone);
+
+      resetBtn.addEventListener('click', populateRandomAccounts);
+      checkBtn.addEventListener('click', checkAnswers);
+
+      populateRandomAccounts();
+    });
+  </script>
+</body>
+</html>
