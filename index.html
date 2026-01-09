@@ -492,25 +492,45 @@
         flex: 0 0 100%;
         max-width: 100%;
         min-width: 0;
+        width: 100%;
       }
       .equation-dropzones {
-        flex-direction: column;
+        flex-direction: row;
         gap: 10px;
+        flex-wrap: wrap;
+      }
+      .element-group {
+        flex: 1 1 calc(50% - 10px);
+        min-width: calc(50% - 10px);
       }
       .equation-operator {
-        width: 100%;
+        display: none;
       }
       .element-zone {
         min-height: 220px;
       }
       .bank {
-        min-height: 220px;
+        min-height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .bank .card {
+        flex: 0 0 calc(50% - 4px);
+        width: calc(50% - 4px);
       }
     }
 
     @media (max-width: 600px) {
       .page {
         padding: 16px 14px 22px 14px;
+      }
+      .element-group {
+        flex: 1 1 100%;
+        min-width: 100%;
+      }
+      .bank .card {
+        flex: 0 0 100%;
+        width: 100%;
       }
     }
   </style>
